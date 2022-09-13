@@ -1,0 +1,59 @@
+version: '2'
+services:
+  api:
+    #image cc/cc-nestjs
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - postgres
+    environment: 
+      DATABASE_URL: postgres://user:password@postgres:5432/db
+      NODE_ENV: development
+      PORT: 3000
+    ports:
+      - "8080:3000"
+
+  postgres:
+    image: postgres:14.5
+    ports:
+      - "35000:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+
+#   pgdb:
+#     container_name: quiz-postgres
+#     image: postgres
+#     restart: always
+#     environment:
+#       - POSTGRES_DB=quotes-app
+#       - POSTGRES_USER=dev-user
+#       - POSTGRES_PASSWORD=dev-user
+#     ports:
+#       - "5400:5432"
+#     expose:
+#       - '5411'
+#       # Where our data will be persisted
+#     volumes:
+#       - postgres-db:/var/lib/postgres
+#     networks:
+#       - postgres
+# # Names our volume
+#   pgadmin:
+#     container_name: quiz-pgadmin
+#     restart: always
+#     image: dpage/pgadmin4:latest
+#     environment:
+#       - PGADMIN_DEFAULT_EMAIL=developer@creativecapsule.com
+#       - PGADMIN_DEFAULT_PASSWORD=developer
+#     ports:
+#       - 9091:80
+#     networks:
+#       - postgres
+
+# volumes:
+#   postgres-db:
+# networks:
+#   postgres:
